@@ -1,15 +1,14 @@
-import p5 from "p5";
 import Rocket from "./Rocket";
 /**
    * Creates a population of rockets.
    */
-function Population() {
+function Population(p) {
     this.rockets = [];
     this.popsize = 25;
     this.matingPool = [];
 
     for (let i = 0; i < this.popsize; i++) {
-        this.rockets[i] = new Rocket();
+        this.rockets[i] = new Rocket(p);
     }
 
     // Calculates the fitness of the rockets and creates a matingPool with them according to their fitness. 

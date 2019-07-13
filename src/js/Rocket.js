@@ -1,11 +1,14 @@
 import DNA from "./DNA";
+import globals from "./globals";
+
+let {width, height, target, rx, rh, ry, rw, count} = globals
 /**
    * 
    * Creates a rocket as an object which follows a set of physics parting from it's DNA.
    * 
    * @param {array} dna 
    */
-function Rocket(dna) {
+function Rocket(p, dna) {
     this.pos = p.createVector(width / 2, height);
     this.vel = p.createVector();
     this.acc = p.createVector();

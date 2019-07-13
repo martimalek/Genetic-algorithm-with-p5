@@ -1,3 +1,4 @@
+import {lifespan} from "./globals"
 /**
    * 
    * Creates the DNA (array of genes (vectors)) when no genes are passed. If genes are passed, this are used.
