@@ -1,11 +1,12 @@
-import {lifespan} from "./globals"
+import {lifespan, maxForce} from "./constants"
+import p5 from "p5"
 /**
    * 
    * Creates the DNA (array of genes (vectors)) when no genes are passed. If genes are passed, this are used.
    * 
    * @param {array} genes
    */
-function DNA(genes) {
+function DNA(p, genes) {
     if (genes) {
         this.genes = genes;
     } else {
@@ -21,7 +22,7 @@ function DNA(genes) {
     // Creates a new chain of DNA from two parent's DNAs.
     this.crossover = function (partner) {
         let newGenes = [];
-        let mid = p.floor(random(this.genes.length));
+        let mid = p.floor(p.random(this.genes.length));
         for (let i = 0; i < this.genes.length; i++) {
             if (i > mid) {
                 newGenes[i] = this.genes[i];
@@ -29,7 +30,7 @@ function DNA(genes) {
                 newGenes[i] = partner.genes[i];
             }
         }
-        return new DNA(newGenes);
+        return new DNA(p, newGenes);
     }
 
     // Establishes the possibility of a mutation in a chain of DNA.

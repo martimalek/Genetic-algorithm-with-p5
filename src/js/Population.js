@@ -13,10 +13,10 @@ function Population(p) {
 
     // Calculates the fitness of the rockets and creates a matingPool with them according to their fitness. 
     // As more fitness has a rocket more times it will be pushed to the matingPool.
-    this.evaluate = function () {
+    this.evaluate = function (target) {
         let maxfit = 0;
         for (let i = 0; i < this.popsize; i++) {
-            this.rockets[i].calcFitness();
+            this.rockets[i].calcFitness(target);
             if (this.rockets[i].fitness > maxfit) {
                 maxfit = this.rockets[i].fitness;
             }
@@ -41,20 +41,20 @@ function Population(p) {
         let newRockets = [];
 
         for (let i = 0; i < this.rockets.length; i++) {
-            let parentA = random(this.matingPool).dna;
-            let parentB = random(this.matingPool).dna;
-            let child = parentA.crossover(parentB);
+            const parentA = p.random(this.matingPool).dna;
+            const parentB = p.random(this.matingPool).dna;
+            const child = parentA.crossover(parentB);
             child.mutation();
 
-            newRockets[i] = new Rocket(child);
+            newRockets[i] = new Rocket(p, child);
         }
         this.rockets = newRockets;
     }
 
     // Updates the rockets while drawing them.
-    this.run = function () {
+    this.run = function (target, count) {
         for (let i = 0; i < this.popsize; i++) {
-            this.rockets[i].update();
+            this.rockets[i].update(target, count);
             this.rockets[i].show();
         }
     }

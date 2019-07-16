@@ -1,50 +1,42 @@
 import p5 from "p5";
 import "p5/lib/addons/p5.dom";
-import globals from "./js/globals";
+import { lifespan, rh, rw, rx, ry } from "./js/constants";
 import Population from "./js/Population";
 import Rocket from "./js/Rocket";
 import "./styles.scss";
 
-let {lifespan, count, maxForce, rx, ry, rw, rh, width, height, target} = globals
-
 const sketch = p => {
   let rocket
   let population
+  let target
   let lifeP
-  lifespan = 300;
-  count = 0;
-  maxForce = 0.2;
-
-  rx = 100;
-  ry = 150;
-  rw = 200;
-  rh = 10;
-  width = p.windowWidth;
-  height = p.windowHeight;
+  let count = 0;
+  let width = p.windowWidth;
+  let height = p.windowHeight;
 
   p.setup = () => {
     p.createCanvas(width, height);
-    rocket = new Rocket(p);
-    population = new Population(p);
     lifeP = p.createP();
     target = p.createVector(width / 2, 50);
+    rocket = new Rocket(p);
+    population = new Population(p);
   }
 
   p.draw = () => {
     p.background(0);
-    population.run();
+    population.run(target, count);
     lifeP.html(count);
 
     count++;
     if (count == lifespan) {
-      population.evaluate();
+      population.evaluate(target);
       population.selection();
       p.background(0);
       count = 0;
     }
 
     p.fill(255);
-    p.rect(100, 150, 200, 10);
+    p.rect(rx, ry, rw, rh);
 
     p.ellipse(target.x, target.y, 16, 16);
     p.fill(255, 0, 0);

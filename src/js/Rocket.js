@@ -1,7 +1,5 @@
 import DNA from "./DNA";
-import globals from "./globals";
-
-let {width, height, target, rx, rh, ry, rw, count} = globals
+import {rx, ry, rw, rh} from "./constants"
 /**
    * 
    * Creates a rocket as an object which follows a set of physics parting from it's DNA.
@@ -9,6 +7,8 @@ let {width, height, target, rx, rh, ry, rw, count} = globals
    * @param {array} dna 
    */
 function Rocket(p, dna) {
+    const width = p.windowWidth;
+    const height = p.windowHeight;
     this.pos = p.createVector(width / 2, height);
     this.vel = p.createVector();
     this.acc = p.createVector();
@@ -18,7 +18,7 @@ function Rocket(p, dna) {
     if (dna) {
         this.dna = dna;
     } else {
-        this.dna = new DNA();
+        this.dna = new DNA(p);
     }
     this.fitness = 0;
 
@@ -28,7 +28,7 @@ function Rocket(p, dna) {
     }
 
     // Calculates the fitness of the rocket from it's distance to the target.
-    this.calcFitness = function () {
+    this.calcFitness = function (target) {
         let d = p.dist(this.pos.x, this.pos.y, target.x, target.y);
 
         this.fitness = p.map(d, 0, width, width, 0);
@@ -41,7 +41,7 @@ function Rocket(p, dna) {
     }
 
     // Updates the state of the rocket ((applying forces => (pos, vel, acc)) && (crashed || completed))
-    this.update = function () {
+    this.update = function (target, count) {
         let d = p.dist(this.pos.x, this.pos.y, target.x, target.y);
         if (d < 10) {
             this.completed = true;
@@ -59,7 +59,6 @@ function Rocket(p, dna) {
         if (this.pos.y > height || this.pos.y < 0) {
             this.crashed = true;
         }
-
         this.applyForce(this.dna.genes[count]);
 
         if (!this.completed && !this.crashed) {
