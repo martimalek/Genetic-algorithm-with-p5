@@ -13,17 +13,19 @@ const sketch = p => {
   let count = 0;
   let width = p.windowWidth;
   let height = p.windowHeight;
+  let backgroundImage
 
   p.setup = () => {
     p.createCanvas(width, height);
+    // backgroundImage = p.loadImage("assets/space.png");
     lifeP = p.createP();
-    target = p.createVector(width / 2, 50);
+    target = p.createVector(width / 2, 80);
     rocket = new Rocket(p);
     population = new Population(p);
   }
 
   p.draw = () => {
-    p.background(0);
+    p.background(backgroundImage || 0);
     population.run(target, count);
     lifeP.html(count);
 
@@ -38,9 +40,9 @@ const sketch = p => {
     p.fill(255);
     p.rect(rx, ry, rw, rh);
 
-    p.ellipse(target.x, target.y, 16, 16);
+    p.ellipse(target.x, target.y, 32, 32);
     p.fill(255, 0, 0);
-    p.ellipse(target.x, target.y, 8, 8);
+    p.ellipse(target.x, target.y, 16, 16);
   }
 }
 
